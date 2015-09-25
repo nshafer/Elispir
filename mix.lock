@@ -1,3 +1,0 @@
-%{"aleppo": {:git, "https://github.com/ChicagoBoss/aleppo.git", "ee1056f7407c6b728c4164f850eac3afc254355e", [branch: "master"]},
-  "ether": {:git, "git://github.com/maarek/ether.git", "98e74719d82724e1a9443599bef32d2b1450cb4f", []},
-  "quaff": {:git, "git://github.com/qhool/quaff.git", "df680221f52337baefacc4fab42cc8ef546c8fa8", []}}
