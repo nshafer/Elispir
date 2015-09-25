@@ -6,10 +6,10 @@ defmodule Elispir do
   end
 
   def eval([:do | expressions], scope) do  # Fix sublime syntax highlighting: |)
-    %{last: last, scope: _scope} = Enum.reduce(expressions, %{last: nil, scope: scope}, fn expression, acc ->
+    %{last: last, scope: _scope} = Enum.reduce(expressions, %{last: nil, scope: scope}, fn (expression, acc) ->
       case eval(expression, acc.scope) do
         {value, new_scope} -> %{last: value, scope: Map.merge(acc.scope, new_scope)}
-        value -> %{last: value, scope: acc.scope}
+        value              -> %{last: value, scope: acc.scope}
       end
     end)
     last
@@ -40,9 +40,13 @@ defmodule Elispir do
         new_closure = Map.merge(scope, closure) # scope defined at the time of the function definition overrides current scope
         new_scope = Enum.zip(params, eval(args, new_closure)) |> Enum.into(new_closure)
         eval(body, new_scope)
-      nil -> # Missing symbols are assumed to be missing functions, like Elixir
+      
+      nil ->
+        # Missing symbols are assumed to be missing functions, like Elixir
         raise(UndefinedElispirFunctionError, function: symbol)
-      _ -> # This wasn't a function after all, simply a list that included an atom as the first element
+      
+      _ ->
+        # This wasn't a function after all, simply a list that included an atom as the first element
         eval_list(list, scope)
     end
   end
@@ -52,7 +56,7 @@ defmodule Elispir do
   def eval(literal, _scope), do: literal
   
   defp eval_list(list, scope) do
-    Enum.map(list, fn arg -> eval(arg, scope) end)
+    Enum.map(list, fn (arg) -> eval(arg, scope) end)
   end
 end
 
